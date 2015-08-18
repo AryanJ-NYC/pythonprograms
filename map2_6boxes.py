@@ -158,6 +158,7 @@ def get_plots(ba, ca, delta_time, ica, ma, numdata):
     tt = 0
     t = [0. for i in range(numdata)]
     z = np.array([ica for i in range(numdata)])  # NOTE: changed ic to ica HEREß
+
     for i in range(1, numdata):
         mtanh = np.tanh(z[i - 1])
         cterm = np.dot(ca, mtanh)
@@ -171,6 +172,7 @@ def get_plots(ba, ca, delta_time, ica, ma, numdata):
         z[i][2] = max(z[i][2], 0.0)  # the - reservoir is NEVER negative
         z[i][3] = max(z[i][3], 0.0)  # the + future is NEVER negative
         z[i][4] = max(z[i][4], 0.0)  # the - future is NEVER negative
+        
     return t, z
 
 
