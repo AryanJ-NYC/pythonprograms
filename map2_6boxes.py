@@ -233,13 +233,13 @@ def main():
     x_final = z[-1]
     plt.figure(1)
     plt.interactive(False)
-    #plt.axes([.1,.1,.8,.7])  ORIGINAL
+    # plt.axes([.1,.1,.8,.7])  ORIGINAL
     plt.axes([0.1, .075, .8, .7])
 
     # new
-    plt.plot(t, z[:, 0], color = 'navy', linewidth='6')
-    plt.plot(t, z[:, 1], color = 'greenyellow', linewidth='4')
-    plt.plot(t, z[:, 2], color = 'hotpink', linewidth='4')
+    plt.plot(t, z[:, 0], color='navy', linewidth='6')
+    plt.plot(t, z[:, 1], color='greenyellow', linewidth='4')
+    plt.plot(t, z[:, 2], color='hotpink', linewidth='4')
     plt.plot(t, z[:, 3:numc])
     # print labels on lines
     xtext = 25
@@ -259,7 +259,7 @@ def main():
     # #plt.show()
     # #plt.setp(lines,linewidth=2.,mec='r')
 
-    programname = 'map2_6boxes.py   ' + localtime
+    program_name = 'map2_6boxes.py   ' + localtime
     param1 = '\n   input files= ' + file_name_c + '    ' + file_name_b +\
         '    ' + file_name_m + '    ' + file_name_ic
 
@@ -277,7 +277,7 @@ def main():
     # ca1s2=ca1s.replace('\n','')
     # ca2s2=ca2s.replace('\n','')
     # param3='\nb= '+ str(b) +' m= '+str(m) + '\nc= '+ ca1s2 +'\n'+ ca2s2
-    titlelsl = programname + param1 + param4 + param2
+    titlelsl = program_name + param1 + param4 + param2
     plt.title(titlelsl, fontsize=10)
     plt.savefig('test.png')
 
@@ -285,7 +285,7 @@ def main():
     # OK, now trying to print the second plot
     zzin = x_final
     ccin = ca
-    pprogamename = programname
+    pprogamename = program_name
     boxplot(ccin, zzin, pprogamename)
 
 
