@@ -53,13 +53,13 @@ def getxy(filename):
     return x, y, numlines
 
 def getx (fname):
-    data,numlines=filein(fname)
+    data, numlines = filein(fname)
     #print ('\ndata\n',data,'\nlines',numlines)
-    x=['0' for i in range(numlines)]
+    x = [] #x=['0' for i in range(numlines)]
     for i in range(numlines):
-        x[i]=data[i].replace('\n','')
-        x[i]=eval(x[i])
-    return x,numlines
+    	data[i] = data[i].replace('\n', '')
+        x.append(eval(data[i]))
+    return x, numlines
 
 def getxn(fname):
     data,numlines=filein(fname)
