@@ -53,7 +53,8 @@ def getxy(filename):
     return x, y, numlines
 
 def getx(filename):
-    """Insert Dr. Liebovitch's doctring here
+    """TODO
+    Insert Dr. Liebovitch's doctring here
     :param filename: Filename to getx
     """
     data, numlines = filein(filename)
@@ -96,13 +97,40 @@ def getxn(filename):
 
 
 def lslin(invars,invar):
-    # ASK DR. LIEBOVITCH FOR DESCRIPTIVE VARIABLE NAMES
+    # TODO ASK DR. LIEBOVITCH FOR DESCRIPTIVE VARIABLE/METHOD NAMES
     print('\ncurrent value of {} is {}'.format(invars, invar))
     outvars = input('\nchange to (def=no change)')
     if outvars == '':
         return invar
     else:
         return eval(outvars)
+
+
+def generate_filenames():
+    """Generates file names from user's digit input
+    :return: tuple of four file names
+    """
+    # give it just a number n, will find files cn.txt, bn.txt, mn.txt, icn.txt
+    fast = input('\nONLY NUMBER n and I will find cn.txt, etc. (#/a, Def=a)')
+    if fast.isdigit():
+        file_name_c = 'c' + fast + '.txt'
+        file_name_b = 'b' + fast + '.txt'
+        file_name_m = 'm' + fast + '.txt'
+        file_name_ic = 'ic' + fast + '.txt'
+    else:
+        # TODO Perhaps write "Don't include .txt" ???
+        filename = input('\nfilename for array c [I will add .txt]=  ')
+        file_name_c = filename + '.txt'
+
+        filename = input('\nfilename for array b [I will add .txt]=  ')
+        file_name_b = filename + '.txt'
+
+        filename = input('\nfilename for array m [I will add .txt]=  ')
+        file_name_m = filename + '.txt'
+
+        filename = input('\nfilename for array IC [I will add .txt]=  ')
+        file_name_ic = filename + '.txt'
+    return file_name_b, file_name_c, file_name_ic, file_name_m
 
 # def lslina(invars,invar):
 #     print('\ncurrent value of ',invars,' is= ',invar)
@@ -116,42 +144,23 @@ def lslin(invars,invar):
 def main():
     # -------------------------------------------------------------------------
     # integration default parameters
-    # NOTE: dt=.001
-    dt = .001
-    tt = 0.
+    # NOTE: delta_time=.001
+    delta_time = .001
+    tt = 0.  # TODO rename variable
     numdata = 30000
-    paramin = 'used data from files'
+    param_in = 'used data from files'
 
     # input (old inputtest_II_1.py)
     # input data from files
 
-    # give it just a number n, will find files cn.txt, bn.txt, mn.txt, icn.txt
-    fast = input('\n ONLY NUMBER n and I will find cn.txt, etc. (#/a, Def=a)')
-    if fast.isdigit():
-        fnamec = 'c' + fast + '.txt'
-        fnameb = 'b' + fast + '.txt'
-        fnamem = 'm' + fast + '.txt'
-        fnameic = 'ic' + fast + '.txt'
-    else:
-        fname = input('\nfilename for array c [I will add .txt]=  ')
-        fnamec = fname+'.txt'
+    file_name_b, file_name_c, file_name_ic, file_name_m = generate_filenames()  # get the files
 
-        fname = input('\nfilename for array b [I will add .txt]=  ')
-        fnameb = fname+'.txt'
+    c, numc = getxn(file_name_c)
+    b, numb = getx(file_name_b)
+    m, numm = getx(file_name_m)
+    ic, numic = getx(file_name_ic)
 
-        fname = input('\nfilename for array m [I will add .txt]=  ')
-        fnamem = fname+'.txt'
-
-        fname = input('\nfilename for array IC [I will add .txt]=  ')
-        fnameic = fname+'.txt'
-
-    # get the files
-    c, numc = getxn(fnamec)
-    b, numb = getx(fnameb)
-    m, numm = getx(fnamem)
-    ic, numic = getx(fnameic)
-
-    #check for consistentcy
+    # check for consistency
     if numc**3 != numb * numm * numic:
         print("\nFATAL WARNING - input issue - numbers c,b,m,ic don't match")
 
@@ -188,9 +197,9 @@ def main():
         print('\nba= ', ba)
         print('\nma= ', ma)
         print('\nic= ', ica)
-        paramin = input('\nNOTE changes here! ')
+        param_in = input('\nNOTE changes here! ')
 
-        # UNNECESSARY PASS
+        # TODO: UNNECESSARY PASS
     else:
         pass
 
@@ -206,10 +215,10 @@ def main():
     for i in range (1,numdata):
         mtanh=np.tanh(z[i-1])
         cterm=np.dot(ca,mtanh)
-        dx=dt*(ma*z[i-1] + ba + cterm)
+        dx=delta_time*(ma*z[i-1] + ba + cterm)
     #    print ('\nz[i-1]',z[i-1])
     #    print ('\nma*z[i-1],ba, ca * mtanh, dx','\n',ma*z[i-1],ba, ca * mtanh, dx,'\n\n')
-        tt=tt+dt
+        tt=tt+delta_time
         t[i]=tt
         z[i]=z[i-1]+dx
         z[i][1]=max(z[i][1],0.0) # the + reservoir is NEVER negative
@@ -253,11 +262,11 @@ def main():
     # #plt.setp(lines,linewidth=2.,mec='r')
 
     programname='map2_6boxes.py   '+localtime
-    param1='\n   input files= '+str(fnamec)+'    '+str(fnameb)+\
-        '    '+str(fnamem) + '    '+str(fnameic)
-    param2='\nx_start= '+str(ica)+'    dt= '+str(dt)+ \
+    param1='\n   input files= '+str(file_name_c)+'    '+str(file_name_b)+\
+        '    '+str(file_name_m) + '    '+str(file_name_ic)
+    param2='\nx_start= '+str(ica)+'    delta_time= '+str(delta_time)+ \
         '    var colors=ngp-bgrcmyk' + '\nx_final='+str(x_final)
-    param4='\n'+paramin
+    param4='\n'+param_in
 
     # making it possible to print c matrix
     # nh=int(numc/2)
@@ -278,6 +287,7 @@ def main():
     ccin=ca
     pprogamename=programname
     boxplot(ccin, zzin, pprogamename)
+
 
 if __name__ == "__main__":
     main()
