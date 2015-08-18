@@ -261,9 +261,9 @@ def main():
     # #plt.show()
     # #plt.setp(lines,linewidth=2.,mec='r')
 
-    program_name = 'map2_6boxes.py   ' + localtime
-    
     # Title for graph
+    program_name = 'map2_6boxes.py   ' + localtime
+
     param1 = '\n   input files= ' + file_name_c + '    ' + file_name_b +\
         '    ' + file_name_m + '    ' + file_name_ic
 
