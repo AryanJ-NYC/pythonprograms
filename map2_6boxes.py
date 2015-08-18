@@ -149,6 +149,31 @@ def print_file_arrays(ca, ba, ma, ica):
     print('\nic = ', ica)
 
 
+def get_plots(ba, ca, delta_time, ica, ma, numdata):
+    # OK now start the integration
+    # fix +/- RESERVOIRS NEVER < 0
+    ica[1] = max(ica[1], 0.)
+    ica[2] = max(ica[2], 0.)
+    xolda = ica
+    tt = 0
+    t = [0. for i in range(numdata)]
+    z = np.array([ica for i in range(numdata)])  # NOTE: changed ic to ica HEREß
+    for i in range(1, numdata):
+        mtanh = np.tanh(z[i - 1])
+        cterm = np.dot(ca, mtanh)
+        dx = delta_time * (ma * z[i - 1] + ba + cterm)
+        #    print ('\nz[i-1]',z[i-1])
+        #    print ('\nma*z[i-1],ba, ca * mtanh, dx','\n',ma*z[i-1],ba, ca * mtanh, dx,'\n\n')
+        tt += delta_time
+        t[i] = tt
+        z[i] = z[i - 1] + dx
+        z[i][1] = max(z[i][1], 0.0)  # the + reservoir is NEVER negative
+        z[i][2] = max(z[i][2], 0.0)  # the - reservoir is NEVER negative
+        z[i][3] = max(z[i][3], 0.0)  # the + future is NEVER negative
+        z[i][4] = max(z[i][4], 0.0)  # the - future is NEVER negative
+    return t, z
+
+
 def main():
     # -------------------------------------------------------------------------
     # integration default parameters
@@ -198,29 +223,8 @@ def main():
     else:
         pass
 
-    # OK now start the integration
-    # fix +/- RESERVOIRS NEVER < 0
-    ica[1] = max(ica[1],0.)
-    ica[2] = max(ica[2],0.)
-    xolda = ica
-    tt = 0
-    t = [0. for i in range(numdata)]
-    z = np.array([ica for i in range (numdata)]) # NOTE: changed ic to ica HEREß
-
-    for i in range (1, numdata):
-        mtanh = np.tanh(z[i-1])
-        cterm = np.dot(ca,mtanh)
-        dx = delta_time * (ma*z[i-1] + ba + cterm)
-    #    print ('\nz[i-1]',z[i-1])
-    #    print ('\nma*z[i-1],ba, ca * mtanh, dx','\n',ma*z[i-1],ba, ca * mtanh, dx,'\n\n')
-        tt += delta_time
-        t[i] = tt
-        z[i] = z[i-1]+dx
-        z[i][1] = max(z[i][1], 0.0) # the + reservoir is NEVER negative
-        z[i][2] = max(z[i][2], 0.0) # the - reservoir is NEVER negative
-        z[i][3] = max(z[i][3], 0.0) # the + future is NEVER negative
-        z[i][4] = max(z[i][4], 0.0) # the - future is NEVER negative
-
+    # TODO Rename z
+    t, z = get_plots(ba, ca, delta_time, ica, ma, numdata)
 
     # PLOT
     print('\nYour plot is ready')
