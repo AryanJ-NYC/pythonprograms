@@ -105,6 +105,15 @@ def lslin(invars,invar):
     else:
         return eval(outvars)
 
+# def lslina(invars,invar):
+#     print('\ncurrent value of ',invars,' is= ',invar)
+#     outvars=input('\nchange to (def=no change)')
+#     if (outvars==''):
+#         return invar
+#     else:
+#         outvar=eval(outvars)
+#     return outvar
+
 
 def generate_filenames():
     """Generates file names from user's digit input
@@ -132,14 +141,12 @@ def generate_filenames():
         file_name_ic = filename + '.txt'
     return file_name_b, file_name_c, file_name_ic, file_name_m
 
-# def lslina(invars,invar):
-#     print('\ncurrent value of ',invars,' is= ',invar)
-#     outvars=input('\nchange to (def=no change)')
-#     if (outvars==''):
-#         return invar
-#     else:
-#         outvar=eval(outvars)
-#     return outvar
+def print_file_arrays(ba, ca, ica, ma):
+    print('\nca = ', ca)
+    print('\nba = ', ba)
+    print('\nma = ', ma)
+    print('\nic = ', ica)
+
 
 def main():
     # -------------------------------------------------------------------------
@@ -167,10 +174,7 @@ def main():
     # make arrays (NOT matrices) and print
     ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
 
-    print('\nca= ',ca)
-    print('\nba= ',ba)
-    print('\nma= ',ma)
-    print('\nic= ',ica)
+    print_file_arrays(ba, ca, ica, ma)
 
     # xinit=[.0*i for i in range (p)]
     # initial conditions
@@ -187,10 +191,7 @@ def main():
         ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
         
         print('/n/nNEW PARAMETER VALUES ARE: ')
-        print('\nca = ', ca)
-        print('\nba = ', ba)
-        print('\nma = ', ma)
-        print('\nic = ', ica)
+        print_file_arrays(ba, ca, ica, ma)
         param_in = input('\nNOTE changes here! ')
         # TODO: UNNECESSARY PASS
     else:
