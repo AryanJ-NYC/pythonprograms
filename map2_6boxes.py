@@ -172,7 +172,7 @@ def get_plots(ba, ca, delta_time, ica, ma, numdata):
         z[i][2] = max(z[i][2], 0.0)  # the - reservoir is NEVER negative
         z[i][3] = max(z[i][3], 0.0)  # the + future is NEVER negative
         z[i][4] = max(z[i][4], 0.0)  # the - future is NEVER negative
-        
+
     return t, z
 
 
@@ -262,6 +262,8 @@ def main():
     # #plt.setp(lines,linewidth=2.,mec='r')
 
     program_name = 'map2_6boxes.py   ' + localtime
+    
+    # Title for graph
     param1 = '\n   input files= ' + file_name_c + '    ' + file_name_b +\
         '    ' + file_name_m + '    ' + file_name_ic
 
