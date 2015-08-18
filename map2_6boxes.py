@@ -128,6 +128,7 @@ def generate_filenames():
         file_name_ic = 'ic' + fast + '.txt'
     else:
         # TODO Perhaps write "Don't include .txt" ???
+        # Detect extension or add if needed
         filename = input('\nfilename for array c [I will add .txt]=  ')
         file_name_c = filename + '.txt'
 
