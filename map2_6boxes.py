@@ -126,7 +126,7 @@ def main():
     # input data from files
 
     # give it just a number n, will find files cn.txt, bn.txt, mn.txt, icn.txt
-    fast=input('\n ONLY NUMBER n and I will find cn.txt, etc. (#/a, Def=a)')
+    fast = input('\n ONLY NUMBER n and I will find cn.txt, etc. (#/a, Def=a)')
     if fast.isdigit():
         fnamec = 'c' + fast + '.txt'
         fnameb = 'b' + fast + '.txt'
@@ -149,24 +149,24 @@ def main():
     c, numc = getxn(fnamec)
     b, numb = getx(fnameb)
     m, numm = getx(fnamem)
-    ic,numic=getx(fnameic)
+    ic, numic = getx(fnameic)
 
     #check for consistentcy
-    if (numc**3!=numb*numm*numic):
-        print ("\nFATAL WARNING - input issue - numbers c,b,m,ic don't match")
+    if numc**3 != numb * numm * numic:
+        print("\nFATAL WARNING - input issue - numbers c,b,m,ic don't match")
 
-    #make arrays (NOT matrices) and print
-    ma=np.array(m)
-    ba=np.array(b)
-    ca=np.array(c)
-    ica=np.array(ic)
-    print ('\nca= ',ca)
-    print ('\nba= ',ba)
-    print ('\nma= ',ma)
-    print ('\nic= ',ica)
+    # make arrays (NOT matrices) and print
+    ma = np.array(m)
+    ba = np.array(b)
+    ca = np.array(c)
+    ica = np.array(ic)
+    print('\nca= ',ca)
+    print('\nba= ',ba)
+    print('\nma= ',ma)
+    print('\nic= ',ica)
 
-    #xinit=[.0*i for i in range (p)]
-    #initial conditions
+    # xinit=[.0*i for i in range (p)]
+    # initial conditions
     # for i in range (p):
     #     xinit[i]=float(input('\ninitial value of x (e.g. .5 or -.5)  '))
     # xold=xinit
@@ -174,32 +174,34 @@ def main():
 
     # You can change here, but program MUST finish before you get graph
     change=input('\nWant to CHANGE parameters (y/n, def=n)')
-    if (change=='y' or change=='Y'):
-        c=lslin('c',c)
-        b=lslin('b',b)
-        m=lslin('m',m)
-        ic=lslin('ic',ic)
-        ma=np.array(m)
-        ba=np.array(b)
-        ca=np.array(c)
-        ica=np.array(ic)
-        print ('/n/nNEW PARAMTER VALUES ARE:')
-        print ('\nca= ',ca)
-        print ('\nba= ',ba)
-        print ('\nma= ',ma)
-        print ('\nic= ',ica)
-        paramin=input('\nNOTE changes here!  ')
+    if change =='y' or change =='Y':
+        c = lslin('c',c)
+        b = lslin('b',b)
+        m = lslin('m',m)
+        ic = lslin('ic',ic)
+        ma = np.array(m)
+        ba = np.array(b)
+        ca = np.array(c)
+        ica = np.array(ic)
+        print('/n/nNEW PARAMETER VALUES ARE:')
+        print('\nca= ', ca)
+        print('\nba= ', ba)
+        print('\nma= ', ma)
+        print('\nic= ', ica)
+        paramin = input('\nNOTE changes here! ')
+
+        # UNNECESSARY PASS
     else:
         pass
 
-    #OK now start the integration
-    #fix +/- RESERVOIRS NEVER <0
-    ica[1]=max(ica[1],0.)
-    ica[2]=max(ica[2],0.)
-    xolda=ica
-    tt=0
-    t=[0. for i in range(numdata)]
-    z=np.array([ica for i in range (numdata)]) # NOTE: changed ic to ica HEREß
+    # OK now start the integration
+    # fix +/- RESERVOIRS NEVER <0
+    ica[1] = max(ica[1],0.)
+    ica[2] = max(ica[2],0.)
+    xolda = ica
+    tt = 0
+    t = [0. for i in range(numdata)]
+    z = np.array([ica for i in range (numdata)]) # NOTE: changed ic to ica HEREß
 
     for i in range (1,numdata):
         mtanh=np.tanh(z[i-1])
@@ -220,7 +222,7 @@ def main():
     print('\nYour plot is ready')
     localtime = time.asctime( time.localtime(time.time()) )
     x_start=ica
-    x_final=z[-1]
+    x_final = z[-1]
     plt.figure(1)
     plt.interactive(False)
     #plt.axes([.1,.1,.8,.7])  ORIGINAL
@@ -232,7 +234,7 @@ def main():
     plt.plot(t,z[:,1],color='greenyellow',linewidth='4')
     plt.plot(t,z[:,2],color='hotpink',linewidth='4')
     plt.plot(t,z[:,3:numc])
-    #print labels on lines
+    # print labels on lines
     xtext=25
     for i in range (numc):
         ytext=z[-1,i]
