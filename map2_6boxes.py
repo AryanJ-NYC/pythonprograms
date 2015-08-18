@@ -166,7 +166,7 @@ def main():
 
     # make arrays (NOT matrices) and print
     ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
-    
+
     print('\nca= ',ca)
     print('\nba= ',ba)
     print('\nma= ',ma)
@@ -180,23 +180,18 @@ def main():
     # xolda=np.array(xold)
 
     # You can change here, but program MUST finish before you get graph
-    change=input('\nWant to CHANGE parameters (y/n, def=n)')
-    if change =='y' or change =='Y':
-        c = lslin('c',c)
-        b = lslin('b',b)
-        m = lslin('m',m)
-        ic = lslin('ic',ic)
-        ma = np.array(m)
-        ba = np.array(b)
-        ca = np.array(c)
-        ica = np.array(ic)
-        print('/n/nNEW PARAMETER VALUES ARE:')
-        print('\nca= ', ca)
-        print('\nba= ', ba)
-        print('\nma= ', ma)
-        print('\nic= ', ica)
+    change = input('\nWant to CHANGE parameters (y / n, def = n)')
+    
+    if change == 'y' or change == 'Y':
+        m, b, c, ic = lslin('m', m), lslin('b', b), lslin('c', c), lslin('ic', ic)
+        ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
+        
+        print('/n/nNEW PARAMETER VALUES ARE: ')
+        print('\nca = ', ca)
+        print('\nba = ', ba)
+        print('\nma = ', ma)
+        print('\nic = ', ica)
         param_in = input('\nNOTE changes here! ')
-
         # TODO: UNNECESSARY PASS
     else:
         pass
