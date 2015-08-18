@@ -36,18 +36,20 @@ def fileout(filename, filedata):
     f2.write(filedata)
     f2.close()
 
-def getxy (filename):
-    data, numlines=filein(filename)
+def getxy(filename):
+    data, numlines = filein(filename)
 #    dataline=['0' for i in range(numlines)]
-    x = ['0' for i in range(numlines)]
-    y = ['0' for i in range(numlines)]
+    x = []  # '0' for i in range(numlines)]
+    y = []  # '0' for i in range(numlines)]
     for i in range(numlines):
-        xline=data[i]
-        xline2=xline.split('\t')
-        xline2[-1]=xline2[-1].replace('\n','')
-        #print ('\nxline2',xline2)
-        x[i]=eval(xline2[0])
-        y[i]=eval(xline2[1])
+        xline = data[i]
+        xline2 = xline.split('\t')
+        xline2[-1] = xline2[-1].replace('\n', '')
+        # print ('\nxline2',xline2)
+
+        # ASK DR. LIEBOVITCH ABOUT 0 AND 1
+        x.append(eval(xline2[0]))  # [i] = eval(xline2[0])
+        y.append(eval(xline2[1]))  # [i] = eval(xline2[1])
     return x, y, numlines
 
 def getx (fname):
