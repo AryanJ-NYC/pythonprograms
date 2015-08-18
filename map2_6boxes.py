@@ -141,7 +141,7 @@ def generate_filenames():
         file_name_ic = filename + '.txt'
     return file_name_b, file_name_c, file_name_ic, file_name_m
 
-def print_file_arrays(ba, ca, ica, ma):
+def print_file_arrays(ca, ba, ma, ica):
     print('\nca = ', ca)
     print('\nba = ', ba)
     print('\nma = ', ma)
@@ -191,7 +191,7 @@ def main():
         ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
         
         print('/n/nNEW PARAMETER VALUES ARE: ')
-        print_file_arrays(ba, ca, ica, ma)
+        print_file_arrays(ma, ba, ca, ica)
         param_in = input('\nNOTE changes here! ')
         # TODO: UNNECESSARY PASS
     else:
