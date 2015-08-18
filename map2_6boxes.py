@@ -199,7 +199,7 @@ def main():
         pass
 
     # OK now start the integration
-    # fix +/- RESERVOIRS NEVER <0
+    # fix +/- RESERVOIRS NEVER < 0
     ica[1] = max(ica[1],0.)
     ica[2] = max(ica[2],0.)
     xolda = ica
@@ -207,44 +207,43 @@ def main():
     t = [0. for i in range(numdata)]
     z = np.array([ica for i in range (numdata)]) # NOTE: changed ic to ica HEREß
 
-    for i in range (1,numdata):
-        mtanh=np.tanh(z[i-1])
-        cterm=np.dot(ca,mtanh)
-        dx=delta_time*(ma*z[i-1] + ba + cterm)
+    for i in range (1, numdata):
+        mtanh = np.tanh(z[i-1])
+        cterm = np.dot(ca,mtanh)
+        dx = delta_time * (ma*z[i-1] + ba + cterm)
     #    print ('\nz[i-1]',z[i-1])
     #    print ('\nma*z[i-1],ba, ca * mtanh, dx','\n',ma*z[i-1],ba, ca * mtanh, dx,'\n\n')
-        tt=tt+delta_time
-        t[i]=tt
-        z[i]=z[i-1]+dx
-        z[i][1]=max(z[i][1],0.0) # the + reservoir is NEVER negative
-        z[i][2]=max(z[i][2],0.0) # the - reservoir is NEVER negative
-        z[i][3]=max(z[i][3],0.0) # the + future is NEVER negative
-        z[i][4]=max(z[i][4],0.0) # the - future is NEVER negative
+        tt += delta_time
+        t[i] = tt
+        z[i] = z[i-1]+dx
+        z[i][1] = max(z[i][1], 0.0) # the + reservoir is NEVER negative
+        z[i][2] = max(z[i][2], 0.0) # the - reservoir is NEVER negative
+        z[i][3] = max(z[i][3], 0.0) # the + future is NEVER negative
+        z[i][4] = max(z[i][4], 0.0) # the - future is NEVER negative
 
 
-    #PLOT
+    # PLOT
     print('\nYour plot is ready')
     localtime = time.asctime( time.localtime(time.time()) )
-    x_start=ica
+    x_start = ica
     x_final = z[-1]
     plt.figure(1)
     plt.interactive(False)
     #plt.axes([.1,.1,.8,.7])  ORIGINAL
-    plt.axes([0.1,.075,.8,.7])
+    plt.axes([0.1, .075, .8, .7])
 
-    #new
-
-    plt.plot(t,z[:,0],color='navy',linewidth='6')
-    plt.plot(t,z[:,1],color='greenyellow',linewidth='4')
-    plt.plot(t,z[:,2],color='hotpink',linewidth='4')
-    plt.plot(t,z[:,3:numc])
+    # new
+    plt.plot(t, z[:, 0], color = 'navy', linewidth='6')
+    plt.plot(t, z[:, 1], color = 'greenyellow', linewidth='4')
+    plt.plot(t, z[:, 2], color = 'hotpink', linewidth='4')
+    plt.plot(t, z[:, 3:numc])
     # print labels on lines
-    xtext=25
+    xtext = 25
     for i in range (numc):
-        ytext=z[-1,i]
-        varis=str(i+1)
-        plt.text(xtext,ytext,varis)
-        xtext=xtext-1
+        ytext = z[-1,i]
+        varis = str(i+1)
+        plt.text(xtext, ytext, varis)
+        xtext = xtext-1
 
     #plt.text(5,0,'num')
 
@@ -256,12 +255,14 @@ def main():
     # #plt.show()
     # #plt.setp(lines,linewidth=2.,mec='r')
 
-    programname='map2_6boxes.py   '+localtime
-    param1='\n   input files= '+str(file_name_c)+'    '+str(file_name_b)+\
-        '    '+str(file_name_m) + '    '+str(file_name_ic)
-    param2='\nx_start= '+str(ica)+'    delta_time= '+str(delta_time)+ \
+    programname = 'map2_6boxes.py   ' + localtime
+    param1 = '\n   input files= ' + file_name_c + '    ' + file_name_b +\
+        '    ' + file_name_m + '    ' + file_name_ic
+
+    param2 = '\nx_start= ' + str(ica) + '    delta_time= '+str(delta_time) + \
         '    var colors=ngp-bgrcmyk' + '\nx_final='+str(x_final)
-    param4='\n'+param_in
+
+    param4 = '\n' + param_in
 
     # making it possible to print c matrix
     # nh=int(numc/2)
@@ -272,15 +273,15 @@ def main():
     # ca1s2=ca1s.replace('\n','')
     # ca2s2=ca2s.replace('\n','')
     # param3='\nb= '+ str(b) +' m= '+str(m) + '\nc= '+ ca1s2 +'\n'+ ca2s2
-    titlelsl=programname+param1 + param4 + param2
+    titlelsl = programname + param1 + param4 + param2
     plt.title(titlelsl, fontsize=10)
     plt.savefig('test.png')
 
-    #plt.axis(# [0, .1, -.2, .2])
-    #OK, now trying to print the second plot
-    zzin=x_final
-    ccin=ca
-    pprogamename=programname
+    # plt.axis(# [0, .1, -.2, .2])
+    # OK, now trying to print the second plot
+    zzin = x_final
+    ccin = ca
+    pprogamename = programname
     boxplot(ccin, zzin, pprogamename)
 
 
