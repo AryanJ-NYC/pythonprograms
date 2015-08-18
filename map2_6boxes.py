@@ -96,14 +96,14 @@ def getxn(filename):
 
 
 def lslin(invars,invar):
-    print('\ncurrent value of ',invars,' is= ',invar)
-    outvars=input('\nchange to (def=no change)')
-    if (outvars==''):
+    # ASK DR. LIEBOVITCH FOR DESCRIPTIVE VARIABLE NAMES
+    print('\ncurrent value of {} is {}'.format(invars, invar))
+    outvars = input('\nchange to (def=no change)')
+    if outvars == '':
         return invar
     else:
-        outvar=eval(outvars)
-    return outvar
-    
+        return eval(outvars)
+
 # def lslina(invars,invar):
 #     print('\ncurrent value of ',invars,' is= ',invar)
 #     outvars=input('\nchange to (def=no change)')
@@ -113,41 +113,41 @@ def lslin(invars,invar):
 #         outvar=eval(outvars)
 #     return outvar
 
-#-------------------------------------------------------------------------
-#integration default parameters
-#NOTE: dt=.001
-dt=.001
-tt=0.
-numdata=30000
-paramin='used data from files'
+# -------------------------------------------------------------------------
+# integration default parameters
+# NOTE: dt=.001
+dt = .001
+tt = 0.
+numdata = 30000
+paramin = 'used data from files'
 
-#input (old inputtest_II_1.py)
-#input data from files
+# input (old inputtest_II_1.py)
+# input data from files
 
-#give it just a number n, will find files cn.txt, bn.txt, mn.txt, icn.txt
+# give it just a number n, will find files cn.txt, bn.txt, mn.txt, icn.txt
 fast=input('\n ONLY NUMBER n and I will find cn.txt, etc. (#/a, Def=a)')
 if fast.isdigit():
-    fnamec='c'+fast+'.txt'
-    fnameb='b'+fast+'.txt'
-    fnamem='m'+fast+'.txt'
-    fnameic='ic'+fast+'.txt'
+    fnamec = 'c' + fast + '.txt'
+    fnameb = 'b' + fast + '.txt'
+    fnamem = 'm' + fast + '.txt'
+    fnameic = 'ic' + fast + '.txt'
 else:
-    fname=input('\nfilename for array c [I will add .txt]=  ')
-    fnamec=fname+'.txt'
+    fname = input('\nfilename for array c [I will add .txt]=  ')
+    fnamec = fname+'.txt'
     
-    fname=input('\nfilename for array b [I will add .txt]=  ')
-    fnameb=fname+'.txt'
+    fname = input('\nfilename for array b [I will add .txt]=  ')
+    fnameb = fname+'.txt'
     
-    fname=input('\nfilename for array m [I will add .txt]=  ')
-    fnamem=fname+'.txt'
+    fname = input('\nfilename for array m [I will add .txt]=  ')
+    fnamem = fname+'.txt'
     
-    fname=input('\nfilename for array IC [I will add .txt]=  ')
-    fnameic=fname+'.txt'
+    fname = input('\nfilename for array IC [I will add .txt]=  ')
+    fnameic = fname+'.txt'
 
-#get the files
-c,numc=getxn(fnamec)
-b,numb=getx(fnameb)
-m,numm=getx(fnamem)
+# get the files
+c, numc = getxn(fnamec)
+b, numb = getx(fnameb)
+m, numm = getx(fnamem)
 ic,numic=getx(fnameic)
 
 #check for consistentcy
