@@ -187,11 +187,11 @@ def main():
     change = input('\nWant to CHANGE parameters (y / n, def = n)')
     
     if change == 'y' or change == 'Y':
-        m, b, c, ic = lslin('m', m), lslin('b', b), lslin('c', c), lslin('ic', ic)
-        ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
+        c, b, m, ic = lslin('c', c), lslin('b', b), lslin('m', m), lslin('ic', ic)
+        ca, ba, ma, ica = np.array(c), np.array(b), np.array(m), np.array(ic)
         
         print('/n/nNEW PARAMETER VALUES ARE: ')
-        print_file_arrays(ba, ca, ica, ma)
+        print_file_arrays(ca, ba, ma, ica)
         param_in = input('\nNOTE changes here! ')
         # TODO: UNNECESSARY PASS
     else:
