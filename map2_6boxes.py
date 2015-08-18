@@ -261,12 +261,13 @@ def main():
     # #plt.show()
     # #plt.setp(lines,linewidth=2.,mec='r')
 
-    # Title for graph
+    # Information for graph
     program_name = 'map2_6boxes.py   ' + localtime
 
     param1 = '\n   input files =  {}    {}    {}    {}'.format(file_name_c, file_name_b, file_name_m, file_name_ic)
 
-    param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={}'.format(str(ica), str(delta_time), str(x_final)) 
+    param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={}'\
+        .format(str(ica), str(delta_time), str(x_final))
 
     param4 = '\n' + param_in
 
@@ -279,9 +280,12 @@ def main():
     # ca1s2=ca1s.replace('\n','')
     # ca2s2=ca2s.replace('\n','')
     # param3='\nb= '+ str(b) +' m= '+str(m) + '\nc= '+ ca1s2 +'\n'+ ca2s2
+
+    #Set title
     titlelsl = program_name + param1 + param4 + param2
     plt.title(titlelsl, fontsize=10)
-    plt.savefig('test.png')
+    
+    plt.savefig('test.png')  # Inserted by Aryan to view graph
 
     # plt.axis(# [0, .1, -.2, .2])
     # OK, now trying to print the second plot
