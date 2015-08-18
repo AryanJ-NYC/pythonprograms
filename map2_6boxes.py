@@ -27,12 +27,14 @@ def filein(filename):
     numlines = len(xin)
     return xin, numlines
 
-
 def fileout(filename, filedata):
+    """Writes to file
+    :param filename: File to write to
+    :param filedata: Data to be written to file
+    """
     f2 = open(filename,'w')
     f2.write(filedata)
     f2.close()
-
 
 def getxy (filename):
     data, numlines=filein(filename)
