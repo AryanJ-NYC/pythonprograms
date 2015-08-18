@@ -162,13 +162,11 @@ def main():
 
     # check for consistency
     if numc**3 != numb * numm * numic:
-        print("\nFATAL WARNING - input issue - numbers c,b,m,ic don't match")
+        print("\nFATAL WARNING - input issue - numbers c, b, m, ic don't match")
 
     # make arrays (NOT matrices) and print
-    ma = np.array(m)
-    ba = np.array(b)
-    ca = np.array(c)
-    ica = np.array(ic)
+    ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
+    
     print('\nca= ',ca)
     print('\nba= ',ba)
     print('\nma= ',ma)
