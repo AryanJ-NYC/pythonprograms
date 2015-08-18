@@ -141,7 +141,8 @@ def generate_filenames():
         file_name_ic = filename + '.txt'
     return file_name_b, file_name_c, file_name_ic, file_name_m
 
-def print_file_arrays(ba, ca, ica, ma):
+
+def print_file_arrays(ca, ba, ma, ica):
     print('\nca = ', ca)
     print('\nba = ', ba)
     print('\nma = ', ma)
@@ -172,9 +173,9 @@ def main():
         print("\nFATAL WARNING - input issue - numbers c, b, m, ic don't match")
 
     # make arrays (NOT matrices) and print
-    ma, ba, ca, ica = np.array(m), np.array(b), np.array(c), np.array(ic)
+    ca, ba, ma, ica = np.array(c), np.array(b), np.array(m), np.array(ic)
 
-    print_file_arrays(ba, ca, ica, ma)
+    print_file_arrays(ca, ba, ma, ica)
 
     # xinit=[.0*i for i in range (p)]
     # initial conditions
