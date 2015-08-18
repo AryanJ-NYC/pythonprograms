@@ -52,39 +52,49 @@ def getxy(filename):
         y.append(eval(xline2[1]))  # [i] = eval(xline2[1])
     return x, y, numlines
 
-def getx (fname):
-    data, numlines = filein(fname)
-    #print ('\ndata\n',data,'\nlines',numlines)
-    x = [] #x=['0' for i in range(numlines)]
+def getx(filename):
+    """Insert Dr. Liebovitch's doctring here
+    :param filename: Filename to getx
+    """
+    data, numlines = filein(filename)
+    #  print ('\ndata\n',data,'\nlines',numlines)
+    x = [] # x=['0' for i in range(numlines)]
     for i in range(numlines):
-    	data[i] = data[i].replace('\n', '')
+        data[i] = data[i].replace('\n', '')
         x.append(eval(data[i]))
     return x, numlines
 
-def getxn(fname):
-    data,numlines=filein(fname)
-#print (numlines)
-#print (data)
-    dataline=['0' for i in range(numlines)]
+
+def getxn(filename):
+    data, numlines = filein(filename)
+#  print (numlines)
+#  print (data)
+
+    dataline = []  # '0' for i in range(numlines)]
     for i in range(numlines):
-        x=data[i]
-        y=x.split('\t')
-        y[-1]=y[-1].replace('\n','')
-        dataline[i]=y
-    #print ('\n\nascii-input',dataline)
-    xdata=dataline[:]
-    for i in range (numlines):
-        inline=len(dataline[i])
-        for j in range (inline):
+        # appends every line of data into dataline
+        # dataline is now a 2D array
+        y = data[i].split('\t')
+        y[-1] = y[-1].replace('\n', '')
+        dataline.append(y)
+
+    # print ('\n\nascii-input',dataline)
+    xdata = dataline[:]
+
+    for i in range(numlines):
+        line_length = len(dataline[i])
+        for j in range(line_length):
             if xdata[i][j] != '':
-                xdata[i][j]=eval(xdata[i][j])
+                xdata[i][j] = eval(xdata[i][j])
             else:
-                xdata[i][j]=None
-    #print ('dataline',dataline)
-    #print ('xdata',xdata)
+                xdata[i][j] = None
+    # print ('dataline',dataline)
+    # print ('xdata',xdata)
     return xdata, numlines
 
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+
+
 def lslin(invars,invar):
     print('\ncurrent value of ',invars,' is= ',invar)
     outvars=input('\nchange to (def=no change)')
