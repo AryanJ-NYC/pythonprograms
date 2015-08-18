@@ -264,11 +264,9 @@ def main():
     # Title for graph
     program_name = 'map2_6boxes.py   ' + localtime
 
-    param1 = '\n   input files= ' + file_name_c + '    ' + file_name_b +\
-        '    ' + file_name_m + '    ' + file_name_ic
+    param1 = '\n   input files =  {}    {}    {}    {}'.format(file_name_c, file_name_b, file_name_m, file_name_ic)
 
-    param2 = '\nx_start= ' + str(ica) + '    delta_time= '+str(delta_time) + \
-        '    var colors=ngp-bgrcmyk' + '\nx_final='+str(x_final)
+    param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={}'.format(str(ica), str(delta_time), str(x_final)) 
 
     param4 = '\n' + param_in
 
