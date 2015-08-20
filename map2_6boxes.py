@@ -19,6 +19,25 @@ import time
 from boxes_4 import *
 
 
+# VARIABLES
+# c   -  adjacency matrix
+# cij -  strength of the connection from variable j to i
+
+# bi  - is the self-stimulation of i on itself OR
+#     - the outside positive or negative input into i
+
+# mi  - the time constant of variable i
+#     - the degree or length of memory of variable i
+
+# ici - the initial value of variable i at the beginning of the calculation
+
+# zin - the value of variable i at time n
+
+# Sample calculations
+# http://www.ccs.fau.edu/~liebovitch/physa11601-2.pdf
+
+# EQUATIONS dx(i) / dt = mx(i) - b(i) + (SUMMATION to j)
+
 def filein(filename):
     """Reads in a file
     :param filename: File to be read
@@ -26,6 +45,7 @@ def filein(filename):
     xin = open(filename).read().splitlines()
     numlines = len(xin)
     return xin, numlines
+
 
 def fileout(filename, filedata):
     """Writes to file
@@ -35,6 +55,7 @@ def fileout(filename, filedata):
     f2 = open(filename,'w')
     f2.write(filedata)
     f2.close()
+
 
 def getxy(filename):
     data, numlines = filein(filename)
@@ -51,6 +72,7 @@ def getxy(filename):
         x.append(eval(xline2[0]))  # [i] = eval(xline2[0])
         y.append(eval(xline2[1]))  # [i] = eval(xline2[1])
     return x, y, numlines
+
 
 def getx(filename):
     """TODO
@@ -97,6 +119,7 @@ def getxn(filename):
 
 
 def lslin(invars,invar):
+    # Called after asked to change parameters
     # TODO ASK DR. LIEBOVITCH FOR DESCRIPTIVE VARIABLE/METHOD NAMES
     print('\ncurrent value of {} is {}'.format(invars, invar))
     outvars = input('\nchange to (def=no change)')
@@ -151,6 +174,7 @@ def print_file_arrays(ca, ba, ma, ica):
 
 
 def get_plots(ba, ca, delta_time, ica, ma, numdata):
+    """Euler inegration"""
     # OK now start the integration
     # fix +/- RESERVOIRS NEVER < 0
     ica[1] = max(ica[1], 0.)
@@ -222,7 +246,7 @@ def main():
         print('/n/nNEW PARAMETER VALUES ARE: ')
         print_file_arrays(ca, ba, ma, ica)
         param_in = input('\nNOTE changes here! ')
-        # TODO: UNNECESSARY PASS
+        # UNNECESSARY PASS
     else:
         pass
 
