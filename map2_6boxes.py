@@ -1,42 +1,11 @@
-# map2_5boxes.py
-# starting Peter's 2015-07-18 MAP with 13 variables
-# DOES PETERS DISPLAY
-
-# ***NB***
-# REPLACED NODAL,+/- RESERVOIRS, +/- FUTURE AS VARIABLES 1,2,3,4
-# AND +/- RESERVOIRS, +/- FUTURE ==0 IF <0
-# ***NB***
-
-# STARTING TO USE BETTER PLOT/COLORS FROM peace_11
-# note: c(i,j) is effect of j on i
-
 import math
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 from scipy import stats
 import numpy as np
 import random
 import time
 from boxes_4 import *
-
-
-# VARIABLES
-# c   -  adjacency matrix
-# cij -  strength of the connection from variable j to i
-
-# bi  - is the self-stimulation of i on itself OR
-#     - the outside positive or negative input into i
-
-# mi  - the time constant of variable i
-#     - the degree or length of memory of variable i
-
-# ici - the initial value of variable i at the beginning of the calculation
-
-# zin - the value of variable i at time n
-
-# Sample calculations
-# http://www.ccs.fau.edu/~liebovitch/physa11601-2.pdf
-
-# EQUATIONS dx(i) / dt = mx(i) - b(i) + (SUMMATION to j)
 
 def filein(filename):
     """Reads in a file
@@ -45,7 +14,6 @@ def filein(filename):
     xin = open(filename).read().splitlines()
     numlines = len(xin)
     return xin, numlines
-
 
 def fileout(filename, filedata):
     """Writes to file
@@ -56,10 +24,8 @@ def fileout(filename, filedata):
     f2.write(filedata)
     f2.close()
 
-
 def getxy(filename):
     data, numlines = filein(filename)
-#    dataline=['0' for i in range(numlines)]
     x = []  # '0' for i in range(numlines)]
     y = []  # '0' for i in range(numlines)]
     for i in range(numlines):
@@ -72,7 +38,6 @@ def getxy(filename):
         x.append(eval(xline2[0]))  # [i] = eval(xline2[0])
         y.append(eval(xline2[1]))  # [i] = eval(xline2[1])
     return x, y, numlines
-
 
 def getx(filename):
     """TODO
@@ -87,12 +52,8 @@ def getx(filename):
         x.append(eval(data[i]))
     return x, numlines
 
-
 def getxn(filename):
     data, numlines = filein(filename)
-#  print (numlines)
-#  print (data)
-
     dataline = []  # '0' for i in range(numlines)]
     for i in range(numlines):
         # appends every line of data into dataline
@@ -115,9 +76,6 @@ def getxn(filename):
     # print ('xdata',xdata)
     return xdata, numlines
 
-# -------------------------------------------------------------------------
-
-
 def lslin(invars,invar):
     # Called after asked to change parameters
     # TODO ASK DR. LIEBOVITCH FOR DESCRIPTIVE VARIABLE/METHOD NAMES
@@ -127,16 +85,6 @@ def lslin(invars,invar):
         return invar
     else:
         return eval(outvars)
-
-# def lslina(invars,invar):
-#     print('\ncurrent value of ',invars,' is= ',invar)
-#     outvars=input('\nchange to (def=no change)')
-#     if (outvars==''):
-#         return invar
-#     else:
-#         outvar=eval(outvars)
-#     return outvar
-
 
 def generate_filenames():
     """Generates file names from user's digit input
@@ -165,13 +113,11 @@ def generate_filenames():
         file_name_ic = filename + '.txt'
     return file_name_b, file_name_c, file_name_ic, file_name_m
 
-
 def print_file_arrays(ca, ba, ma, ica):
     print('\nca = ', ca)
     print('\nba = ', ba)
     print('\nma = ', ma)
     print('\nic = ', ica)
-
 
 def get_plots(ba, ca, delta_time, ica, ma, numdata):
     """Euler inegration"""
@@ -200,125 +146,85 @@ def get_plots(ba, ca, delta_time, ica, ma, numdata):
 
     return t, z
 
+def animate(i): 
+    i = i * step
 
-def main():
-    # -------------------------------------------------------------------------
-    # integration default parameters
-    # NOTE: delta_time=.001
-    delta_time = .001
-    tt = 0.  # TODO rename variable
-    numdata = 30000
-    param_in = 'used data from files'
+    # get plots for current i value
+    x_plot1, y_plot1 = (t[:i], z[:i, 0])
+    x_plot2, y_plot2 = (t[:i], z[:i, 1])
+    x_plot3, y_plot3 = (t[:i], z[:i, 2])
+    x_plot4, y_plot4 = (t[:i], z[:i, 3:numc])
 
-    # input (old inputtest_II_1.py)
-    # input data from files
+    # clear lines
+    ax1.clear()
 
-    file_name_b, file_name_c, file_name_ic, file_name_m = generate_filenames()  # get the files
+    # replot
+    ax1.plot(x_plot1, y_plot1, color='navy', linewidth='6')
+    ax1.plot(x_plot2, y_plot2, color='greenyellow', linewidth='4')
+    ax1.plot(x_plot3, y_plot3, color='hotpink', linewidth='4')
+    ax1.plot(x_plot4, y_plot4)
 
-    c, numc = getxn(file_name_c)
-    b, numb = getx(file_name_b)
-    m, numm = getx(file_name_m)
-    ic, numic = getx(file_name_ic)
+    # redraw, update axis scale
+    plt.draw()
 
-    # check for consistency
-    if numc**3 != numb * numm * numic:
-        print("\nFATAL WARNING - input issue - numbers c, b, m, ic don't match")
+    return ax1,
 
-    # make arrays (NOT matrices) and print
+tt = 0. 
+step = 100
+numdata = 30000
+delta_time = .001
+param_in = 'used data from files'
+
+file_name_b, file_name_c, file_name_ic, file_name_m = generate_filenames()  # get the files
+
+c, numc = getxn(file_name_c)
+b, numb = getx(file_name_b)
+m, numm = getx(file_name_m)
+ic, numic = getx(file_name_ic)
+
+# check for consistency
+if numc**3 != numb * numm * numic:
+    print("\nFATAL WARNING - input issue - numbers c, b, m, ic don't match")
+
+# make arrays (NOT matrices) and print
+ca, ba, ma, ica = np.array(c), np.array(b), np.array(m), np.array(ic)
+
+print_file_arrays(ca, ba, ma, ica)
+
+change = input('\nWant to CHANGE parameters (y / n, def = n)')
+
+if change == 'y' or change == 'Y':
+    c, b, m, ic = lslin('c', c), lslin('b', b), lslin('m', m), lslin('ic', ic)
     ca, ba, ma, ica = np.array(c), np.array(b), np.array(m), np.array(ic)
-
+    print('/n/nNEW PARAMETER VALUES ARE: ')
     print_file_arrays(ca, ba, ma, ica)
+    param_in = input('\nNOTE changes here! ')
 
-    # xinit=[.0*i for i in range (p)]
-    # initial conditions
-    # for i in range (p):
-    #     xinit[i]=float(input('\ninitial value of x (e.g. .5 or -.5)  '))
-    # xold=xinit
-    # xolda=np.array(xold)
+t,z = get_plots(ba, ca, delta_time, ica, ma, numdata)
+print("plot is ready")
 
-    # You can change here, but program MUST finish before you get graph
-    change = input('\nWant to CHANGE parameters (y / n, def = n)')
-    
-    if change == 'y' or change == 'Y':
-        c, b, m, ic = lslin('c', c), lslin('b', b), lslin('m', m), lslin('ic', ic)
-        ca, ba, ma, ica = np.array(c), np.array(b), np.array(m), np.array(ic)
-        
-        print('/n/nNEW PARAMETER VALUES ARE: ')
-        print_file_arrays(ca, ba, ma, ica)
-        param_in = input('\nNOTE changes here! ')
-        # UNNECESSARY PASS
-    else:
-        pass
+figure = plt.figure()
+ax1 = figure.add_subplot(111)
 
-    # TODO Rename z
-    t, z = get_plots(ba, ca, delta_time, ica, ma, numdata)
+# init animation
+frames = numdata / step
+anim = animation.FuncAnimation(figure, animate, frames=int(frames), interval=0, blit=True, repeat=False)
 
-    # PLOT
-    print('\nYour plot is ready')
-    localtime = time.asctime( time.localtime(time.time()) )
-    x_start = ica
-    x_final = z[-1]
-    plt.figure(1)
-    plt.interactive(False)
-    # plt.axes([.1,.1,.8,.7])  ORIGINAL
-    plt.axes([0.1, .075, .8, .7])
+# resize graph to fit title
+box = ax1.get_position()
+ax1.set_position([box.x0, box.y0 - box.height * 0.05, box.width, box.height * 0.9])
 
-    # new
-    plt.plot(t, z[:, 0], color='navy', linewidth='6')
-    plt.plot(t, z[:, 1], color='greenyellow', linewidth='4')
-    plt.plot(t, z[:, 2], color='hotpink', linewidth='4')
-    plt.plot(t, z[:, 3:numc])
-    # print labels on lines
-    xtext = 25
-    for i in range (numc):
-        ytext = z[-1,i]
-        varis = str(i+1)
-        plt.text(xtext, ytext, varis)
-        xtext = xtext-1
+# generate title
+x_start = ica
+x_final = z[-1]
+localtime = time.asctime(time.localtime(time.time()))
+program_name = 'map2_6boxes.py   ' + localtime
+param1 = '\n   input files =  {}    {}    {}    {}'.format(file_name_c, file_name_b, file_name_m, file_name_ic)
+param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={}'\
+    .format(str(ica), str(delta_time), str(x_final))
+param4 = '\n' + param_in
+title = program_name + param1 + param4 + param2
 
-    #plt.text(5,0,'num')
-
-    #old
-    # #plt.axis([0, 3, -20, 20])
-    # lines=plt.plot(t,z)
-    # #lines=plt.plot (ta,x1a,'-b',ta,x2a,'-r')
-    # plt.setp(lines,linewidth=2.)
-    # #plt.show()
-    # #plt.setp(lines,linewidth=2.,mec='r')
-
-    # Information for graph
-    program_name = 'map2_6boxes.py   ' + localtime
-
-    param1 = '\n   input files =  {}    {}    {}    {}'.format(file_name_c, file_name_b, file_name_m, file_name_ic)
-
-    param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={}'\
-        .format(str(ica), str(delta_time), str(x_final))
-
-    param4 = '\n' + param_in
-
-    # making it possible to print c matrix
-    # nh=int(numc/2)
-    # ca1=ca[0:nh,:]
-    # ca2=ca[nh:numc,:]
-    # ca1s=str(ca1)
-    # ca2s=str(ca2)
-    # ca1s2=ca1s.replace('\n','')
-    # ca2s2=ca2s.replace('\n','')
-    # param3='\nb= '+ str(b) +' m= '+str(m) + '\nc= '+ ca1s2 +'\n'+ ca2s2
-
-    #Set title
-    titlelsl = program_name + param1 + param4 + param2
-    plt.title(titlelsl, fontsize=10)
-    
-    plt.savefig('test.png')  # Inserted by Aryan to view graph
-
-    # plt.axis(# [0, .1, -.2, .2])
-    # OK, now trying to print the second plot
-    zzin = x_final
-    ccin = ca
-    pprogamename = program_name
-    boxplot(ccin, zzin, pprogamename)
-
-
-if __name__ == "__main__":
-    main()
+# set title and show
+plt.suptitle(title, fontsize=10)
+plt.show()
