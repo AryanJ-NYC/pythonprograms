@@ -5,7 +5,7 @@ from scipy import stats
 import numpy as np
 import random
 import time
-from boxes_4 import *
+
 
 def filein(filename):
     """Reads in a file
@@ -14,6 +14,7 @@ def filein(filename):
     xin = open(filename).read().splitlines()
     numlines = len(xin)
     return xin, numlines
+
 
 def fileout(filename, filedata):
     """Writes to file
@@ -24,6 +25,7 @@ def fileout(filename, filedata):
     f2.write(filedata)
     f2.close()
 
+
 def getxy(filename):
     data, numlines = filein(filename)
     x = []  # '0' for i in range(numlines)]
@@ -32,12 +34,11 @@ def getxy(filename):
         xline = data[i]
         xline2 = xline.split('\t')
         xline2[-1] = xline2[-1].replace('\n', '')
-        # print ('\nxline2',xline2)
 
-        # ASK DR. LIEBOVITCH ABOUT 0 AND 1
         x.append(eval(xline2[0]))  # [i] = eval(xline2[0])
         y.append(eval(xline2[1]))  # [i] = eval(xline2[1])
     return x, y, numlines
+
 
 def getx(filename):
     """TODO
@@ -45,24 +46,21 @@ def getx(filename):
     :param filename: Filename to getx
     """
     data, numlines = filein(filename)
-    #  print ('\ndata\n',data,'\nlines',numlines)
     x = [] # x=['0' for i in range(numlines)]
     for i in range(numlines):
         data[i] = data[i].replace('\n', '')
         x.append(eval(data[i]))
     return x, numlines
 
+
 def getxn(filename):
     data, numlines = filein(filename)
     dataline = []  # '0' for i in range(numlines)]
     for i in range(numlines):
-        # appends every line of data into dataline
-        # dataline is now a 2D array
         y = data[i].split('\t')
         y[-1] = y[-1].replace('\n', '')
         dataline.append(y)
 
-    # print ('\n\nascii-input',dataline)
     xdata = dataline[:]
 
     for i in range(numlines):
@@ -72,19 +70,18 @@ def getxn(filename):
                 xdata[i][j] = eval(xdata[i][j])
             else:
                 xdata[i][j] = None
-    # print ('dataline',dataline)
-    # print ('xdata',xdata)
+
     return xdata, numlines
 
+
 def lslin(invars,invar):
-    # Called after asked to change parameters
-    # TODO ASK DR. LIEBOVITCH FOR DESCRIPTIVE VARIABLE/METHOD NAMES
     print('\ncurrent value of {} is {}'.format(invars, invar))
     outvars = input('\nchange to (def=no change)')
     if outvars == '':
         return invar
     else:
         return eval(outvars)
+
 
 def generate_filenames():
     """Generates file names from user's digit input
@@ -111,13 +108,16 @@ def generate_filenames():
 
         filename = input('\nfilename for array IC [I will add .txt]=  ')
         file_name_ic = filename + '.txt'
+
     return file_name_b, file_name_c, file_name_ic, file_name_m
+
 
 def print_file_arrays(ca, ba, ma, ica):
     print('\nca = ', ca)
     print('\nba = ', ba)
     print('\nma = ', ma)
     print('\nic = ', ica)
+
 
 def get_plots(ba, ca, delta_time, ica, ma, numdata):
     """Euler inegration"""
@@ -146,7 +146,9 @@ def get_plots(ba, ca, delta_time, ica, ma, numdata):
 
     return t, z
 
+
 def animate(i): 
+    # modify frame step
     i = i * step
 
     # get plots for current i value
@@ -159,18 +161,18 @@ def animate(i):
     ax1.clear()
 
     # replot
-    ax1.plot(x_plot1, y_plot1, color='navy', linewidth='6')
-    ax1.plot(x_plot2, y_plot2, color='greenyellow', linewidth='4')
-    ax1.plot(x_plot3, y_plot3, color='hotpink', linewidth='4')
+    ax1.plot(x_plot1, y_plot1, color='navy', linewidth=6)
+    ax1.plot(x_plot2, y_plot2, color='greenyellow', linewidth=4)
+    ax1.plot(x_plot3, y_plot3, color='hotpink', linewidth=4)
     ax1.plot(x_plot4, y_plot4)
 
-    # redraw, update axis scale
-    plt.draw()
+    # set axes scale
+    ax1.axis([0.0, 30.0, 0.0, 12.0])
 
-    return ax1,
+    return ax1
 
 tt = 0. 
-step = 100
+step = 50
 numdata = 30000
 delta_time = .001
 param_in = 'used data from files'
@@ -200,7 +202,7 @@ if change == 'y' or change == 'Y':
     print_file_arrays(ca, ba, ma, ica)
     param_in = input('\nNOTE changes here! ')
 
-t,z = get_plots(ba, ca, delta_time, ica, ma, numdata)
+t, z = get_plots(ba, ca, delta_time, ica, ma, numdata)
 print("plot is ready")
 
 figure = plt.figure()
@@ -208,7 +210,7 @@ ax1 = figure.add_subplot(111)
 
 # init animation
 frames = numdata / step
-anim = animation.FuncAnimation(figure, animate, frames=int(frames), interval=0, blit=True, repeat=False)
+anim = animation.FuncAnimation(figure, animate, frames=int(frames), interval=1, blit=False, repeat=False)
 
 # resize graph to fit title
 box = ax1.get_position()
@@ -225,6 +227,6 @@ param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={
 param4 = '\n' + param_in
 title = program_name + param1 + param4 + param2
 
-# set title and show
+# set title and show graph
 plt.suptitle(title, fontsize=10)
 plt.show()
