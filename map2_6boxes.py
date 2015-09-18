@@ -21,7 +21,7 @@ def fileout(filename, filedata):
     :param filename: File to write to
     :param filedata: Data to be written to file
     """
-    f2 = open(filename,'w')
+    f2 = open(filename, 'w')
     f2.write(filedata)
     f2.close()
 
@@ -46,7 +46,7 @@ def getx(filename):
     :param filename: Filename to getx
     """
     data, numlines = filein(filename)
-    x = [] # x=['0' for i in range(numlines)]
+    x = []  # x=['0' for i in range(numlines)]
     for i in range(numlines):
         data[i] = data[i].replace('\n', '')
         x.append(eval(data[i]))
@@ -74,7 +74,7 @@ def getxn(filename):
     return xdata, numlines
 
 
-def lslin(invars,invar):
+def lslin(invars, invar):
     print('\ncurrent value of {} is {}'.format(invars, invar))
     outvars = input('\nchange to (def=no change)')
     if outvars == '':
@@ -147,9 +147,9 @@ def get_plots(ba, ca, delta_time, ica, ma, numdata):
     return t, z
 
 
-def animate(i): 
+def animate(i):
     # modify frame step
-    i = i * step
+    i *= step
 
     # get plots for current i value
     x_plot1, y_plot1 = (t[:i], z[:i, 0])
@@ -171,7 +171,8 @@ def animate(i):
 
     return ax1
 
-tt = 0. 
+
+tt = 0.
 step = 50
 numdata = 30000
 delta_time = .001
@@ -185,7 +186,7 @@ m, numm = getx(file_name_m)
 ic, numic = getx(file_name_ic)
 
 # check for consistency
-if numc**3 != numb * numm * numic:
+if numc ** 3 != numb * numm * numic:
     print("\nFATAL WARNING - input issue - numbers c, b, m, ic don't match")
 
 # make arrays (NOT matrices) and print
@@ -222,7 +223,7 @@ x_final = z[-1]
 localtime = time.asctime(time.localtime(time.time()))
 program_name = 'map2_6boxes.py   ' + localtime
 param1 = '\n   input files =  {}    {}    {}    {}'.format(file_name_c, file_name_b, file_name_m, file_name_ic)
-param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={}'\
+param2 = '\nx_start = {}    delta_time = {}    var colors=ngp-bgrcmyk\nx_final={}' \
     .format(str(ica), str(delta_time), str(x_final))
 param4 = '\n' + param_in
 title = program_name + param1 + param4 + param2
