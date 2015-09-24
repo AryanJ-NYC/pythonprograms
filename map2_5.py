@@ -260,7 +260,7 @@ param4 = '\n' + paramin
 # param3='\nb= '+ str(b) +' m= '+str(m) + '\nc= '+ ca1s2 +'\n'+ ca2s2
 titlelsl = programname + param1 + param4 + param2
 plt.title(titlelsl, fontsize=10)
-plt.show()
+# plt.show()
 # plt.axis([0, .1, -.2, .2])
 
 # OK, now trying to print the second plot

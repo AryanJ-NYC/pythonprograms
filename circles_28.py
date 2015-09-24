@@ -23,8 +23,8 @@ def perp(vxin, vyin):
 
 # NEED TO CHANGE THIS LATER
 # numc = 8
-# cin = [[0, 3, -6, 3, 3, 3, 0, 0], [3, 0, 0, 0, 0, 0, 0, 3], [-3, 0, 0, 0, 0, 0, 0, -3], [3, 0, 0, 0, 0, 0, 0, 0], [3, 0, 0, 0, 0, 0, 0, 0], [3, 0, 0, 0, 0, 0, 3, 0], [0, 0, 0, 0, 0, 3, 0, 0], [0, 3, -6, 0, 0, 0, 0, 0]]
-# zin = [13.31636449,   6.65819304,   0.,   3.33333333, 3.33333333, 6.65819304, 3.33332235, 3.33332235]
+cin = [[0, 3, -6, 3, 3, 3, 0, 0], [3, 0, 0, 0, 0, 0, 0, 3], [-3, 0, 0, 0, 0, 0, 0, -3], [3, 0, 0, 0, 0, 0, 0, 0], [3, 0, 0, 0, 0, 0, 0, 0], [3, 0, 0, 0, 0, 0, 3, 0], [0, 0, 0, 0, 0, 3, 0, 0], [0, 3, -6, 0, 0, 0, 0, 0]]
+zin = [13.31636449,   6.65819304,   0.,   3.33333333, 3.33333333, 6.65819304, 3.33332235, 3.33332235]
 
 
 def clockplot(cin, zin, programnamein):
@@ -53,8 +53,8 @@ def clockplot(cin, zin, programnamein):
     # plot the variables
     radius = 1.
     pi = np.pi
-    xp = ['0' for i in range(numc)]
-    yp = ['0' for i in range(numc)]
+    xp = [0 for i in range(numc)]
+    yp = [0 for i in range(numc)]
     for i in range(numc):
         angle = i * pi / 6.5
         xp[i] = radius * np.sin(angle)
@@ -94,12 +94,12 @@ def clockplot(cin, zin, programnamein):
 
     # plot the connections
     cina = np.array(cin)
-    xcon = ['0', '0']
-    ycon = ['0', '0']
+    xcon = [0, 0]
+    ycon = [0, 0]
     for i in range(numc):
         for j in range(numc):
             if np.abs(cina[j][i]) > .1:
-                width = str(abs(cina[j][i]) / 2.)
+                width = abs(cina[j][i]) / 2.
                 # print ('\nwidth= ',width)
                 dxp = (xpa[j] - xpa[i]) * 0.9
                 dyp = (ypa[j] - ypa[i]) * 0.9
@@ -121,3 +121,4 @@ def clockplot(cin, zin, programnamein):
                 #     programname='peace_20.py   '+localtime
     pname = programnamein
     plt.title(pname, fontsize=12)
+    plt.show()
