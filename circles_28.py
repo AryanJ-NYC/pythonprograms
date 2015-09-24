@@ -53,12 +53,13 @@ def clockplot(cin, zin, programnamein):
     # plot the variables
     radius = 1.
     pi = np.pi
-    xp = [0 for i in range(numc)]
-    yp = [0 for i in range(numc)]
+
+    xp = []
+    yp = []
     for i in range(numc):
         angle = i * pi / 6.5
-        xp[i] = radius * np.sin(angle)
-        yp[i] = radius * np.cos(angle)
+        xp.append(radius * np.sin(angle))
+        yp.append(radius * np.cos(angle))
     xpa = np.array(xp)
     ypa = np.array(yp)
     fig = plt.figure()
