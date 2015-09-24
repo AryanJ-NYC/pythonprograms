@@ -53,21 +53,21 @@ def clockplot(cin, zin, programnamein):
     # plot the variables
     radius = 1.
     pi = np.pi
-
     xp = []
     yp = []
     for i in range(numc):
         angle = i * pi / 6.5
         xp.append(radius * np.sin(angle))
         yp.append(radius * np.cos(angle))
-    xpa = np.array(xp)
-    ypa = np.array(yp)
+    xp_array = np.array(xp)
+    yp_array = np.array(yp)
     fig = plt.figure()
     # plt.axes([.1,.1,.7,.7])
     ax = fig.add_subplot(111)
     ax.set_aspect('equal')
     fig.patch.set_facecolor('white')
     ax.set_axis_bgcolor('white')
+
     # ax.arrow(0, 0, 0.5, 0.5, head_width=0.05, head_length=0.1, fc='k', ec='k')
     for i in range(numc):
         maxz = max(np.abs(zin))
@@ -84,14 +84,14 @@ def clockplot(cin, zin, programnamein):
             varc = 'g'
         # else:
         #             varc='g'
-        plt.plot(xpa[i], ypa[i], symbol, ms=msz, c=varc, markeredgewidth=2.0,
+        ax.plot(xp_array[i], yp_array[i], symbol, ms=msz, c=varc, markeredgewidth=2.0,
                  markerfacecolor='none', markeredgecolor=varc)
         if i != 0:
-            plt.text(xpa[i] + .1, ypa[i] - 0.07, vname[i])
+            ax.text(xp_array[i] + .1, yp_array[i] - 0.07, vname[i])
         else:
-            plt.text(xpa[i] + .2, ypa[i] + 0.07, vname[i])
-    plt.axis([-1.25, 1.25, -1.25, 1.25])
-    plt.axis('off')
+            ax.text(xp_array[i] + .2, yp_array[i] + 0.07, vname[i])
+    ax.axis([-1.25, 1.25, -1.25, 1.25])
+    ax.axis('off')
 
     # plot the connections
     cina = np.array(cin)
@@ -102,8 +102,8 @@ def clockplot(cin, zin, programnamein):
             if np.abs(cina[j][i]) > .1:
                 width = abs(cina[j][i]) / 2.
                 # print ('\nwidth= ',width)
-                dxp = (xpa[j] - xpa[i]) * 0.9
-                dyp = (ypa[j] - ypa[i]) * 0.9
+                dxp = (xp_array[j] - xp_array[i]) * 0.9
+                dyp = (yp_array[j] - yp_array[i]) * 0.9
                 dxshift, dyshift = perp(dxp, dyp)
                 if cina[j][i] < 0:
                     test = 'r'
@@ -112,8 +112,8 @@ def clockplot(cin, zin, programnamein):
                 roff = 0.03
                 xoff = dxshift * roff
                 yoff = dyshift * roff
-                xpastart = xpa[i] + xoff
-                ypastart = ypa[i] + yoff
+                xpastart = xp_array[i] + xoff
+                ypastart = yp_array[i] + yoff
                 # print ('\nijxy= ',i,j,xpastart, ypastart)
 
                 ax.arrow(xpastart, ypastart, dxp, dyp, head_width=0.05,
