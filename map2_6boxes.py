@@ -232,4 +232,5 @@ title = program_name + param1 + param4 + param2
 # set title and show graph
 plt.suptitle(title, fontsize=10)
 # plt.show()
-boxplot(ca, x_final, program_name)
+
+boxplot(ca, z, program_name) # passing z as a 2D array (not the final row of the array)
