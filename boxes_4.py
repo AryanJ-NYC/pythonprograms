@@ -88,7 +88,9 @@ def boxplot(cin, zin, programnamein):
     fig.patch.set_facecolor('white')
     ax.set_axis_bgcolor('white')
     # ax.arrow(0, 0, 0.5, 0.5, head_width=0.05, head_length=0.1, fc='k', ec='k')
+
     for i in range(numc):
+        # Create circles (squares)
         maxz = max(np.abs(zin))
         msz = abs(zin[i]) * 40 / maxz
         if msz < 2:
@@ -113,6 +115,7 @@ def boxplot(cin, zin, programnamein):
             plt.text(xpa[i] + .1, ypa[i] + 0.07, vname[i], horizontalalignment=halign)
         else:
             plt.text(xpa[i] + .2, ypa[i] + 0.07, vname[i])
+
     plt.axis([-1.25, 1.25, -1.25, 1.25])
     plt.axis('off')
 
@@ -123,7 +126,7 @@ def boxplot(cin, zin, programnamein):
     for i in range(numc):
         for j in range(numc):
             if np.abs(cina[j][i]) > .1:
-                width = str(abs(cina[j][i]) / 2.)
+                width = abs(cina[j][i]) / 2.
                 # print ('\nwidth= ',width)
                 dxp = (xpa[j] - xpa[i]) * 0.9
                 dyp = (ypa[j] - ypa[i]) * 0.9
@@ -145,6 +148,7 @@ def boxplot(cin, zin, programnamein):
                 #     programname='peace_20.py   '+localtime
     pname = programnamein
     plt.title(pname, fontsize=12)
+    plt.show()
     return
 
 # THIS IS THE TEST RUN

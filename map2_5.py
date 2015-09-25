@@ -207,6 +207,7 @@ for i in range(1, numdata):
     z[i][2] = max(z[i][2], 0.0)  # the - reservoir is NEVER negative
     z[i][3] = max(z[i][3], 0.0)  # the + future is NEVER negative
     z[i][4] = max(z[i][4], 0.0)  # the - future is NEVER negative
+    # TODO call circle plot here to animate
 
 
 # PLOT

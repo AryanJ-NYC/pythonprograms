@@ -5,6 +5,7 @@ from scipy import stats
 import numpy as np
 import random
 import time
+from boxes_4 import *
 
 
 def filein(filename):
@@ -143,7 +144,7 @@ def get_plots(ba, ca, delta_time, ica, ma, numdata):
         z[i][2] = max(z[i][2], 0.0)  # the - reservoir is NEVER negative
         z[i][3] = max(z[i][3], 0.0)  # the + future is NEVER negative
         z[i][4] = max(z[i][4], 0.0)  # the - future is NEVER negative
-
+        # TODO animate circles here
     return t, z
 
 
@@ -230,4 +231,5 @@ title = program_name + param1 + param4 + param2
 
 # set title and show graph
 plt.suptitle(title, fontsize=10)
-plt.show()
+# plt.show()
+boxplot(ca, x_final, program_name)
