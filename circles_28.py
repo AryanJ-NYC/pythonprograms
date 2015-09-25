@@ -11,6 +11,7 @@ import time
 
 outer_index = -2  # Must be -2 since 'i' is not incremented at first run of animate
 
+
 def perp(vxin, vyin):
     if vxin == 0:
         vxp = -np.sign(vyin) * vyin
@@ -117,15 +118,18 @@ def clockplot(cin, zin, programnamein):
             #     # print ('\nijxy= ',i,j,xpastart, ypastart)
             #     ax.arrow(xpastart, ypastart, dxp, dyp, head_width=0.05,
             #              head_length=0.1, fc=arrow_color, ec=arrow_color, linewidth=width)
-                #     localtime = time.asctime( time.localtime(time.time()) )
-                #     programname='peace_20.py   '+localtime
+            #     localtime = time.asctime( time.localtime(time.time()) )
+            #     programname='peace_20.py   '+localtime
     pname = programnamein
     plt.title(pname, fontsize=12)
-    anim = animation.FuncAnimation(fig, animate, frames=numc**2, fargs=(ax, cin, xp_array, yp_array), interval=1,
+    anim = animation.FuncAnimation(fig, animate, frames=numc ** 2, fargs=(ax, cin, xp_array, yp_array), interval=1,
                                    blit=False, repeat=False)
     plt.show()
 
+
 counter = 0
+
+
 def animate(i, ax, cin, xp_array, yp_array):
     global outer_index, counter
     inner_index = i % len(cin)

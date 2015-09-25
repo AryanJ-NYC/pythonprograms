@@ -24,63 +24,56 @@ def perp2(vxin, vyin):
 
 # NEED TO CHANGE THIS LATER
 # numc=13
-# ccin = [[0, 1.5, -5, 1.5, -5, 5, 5, 0, 0, 0, 0, 0, 0],[0.3, 0, 0, 0, 0, 0, 0, 1.5, 1.5, 0, 0, 0, 0], [-1.5, 0, 0, 0, 0, 0, 0, -0.3, -5, -1.5, 0, 0, 0], [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.5, 5], [-1.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.5], [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0], [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0.3, 0, 0, 0], [0, 0.3, -1.5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0], [0, 0.3, -5, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0], [0, 0, -0.3, 0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1.5, -5, 0, 0, 0, 0, 0, 0, 0, 0]]
+# ccin = [[0, 1.5, -5, 1.5, -5, 5, 5, 0, 0, 0, 0, 0, 0],
+# [0.3, 0, 0, 0, 0, 0, 0, 1.5, 1.5, 0, 0, 0, 0],
+# [-1.5, 0, 0, 0, 0, 0, 0, -0.3, -5, -1.5, 0, 0, 0],
+# [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.5, 5],
+# [-1.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.5],
+# [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0],
+# [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0.3, 0, 0, 0],
+# [0, 0.3, -1.5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0],
+# [0, 0.3, -5, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
+# [0, 0, -0.3, 0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0],
+# [0, 0, 0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0, 0],
+# [0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+# [0, 0, 0, 1.5, -5, 0, 0, 0, 0, 0, 0, 0, 0]]
 # zzin=[ 10.69146502,   3.66661546,   0.        ,   6.04199951,
 #          0.        ,   2.06698068,   0.37274724,   5.88836819,
 #          5.88836819,   0.11879745,   0.32282218,   0.33332957,   #1.66664784]
 
 def boxplot(cin, zin, programnamein):
     # set up only for THESE names
-    vname = ['1-NODAL (+/-)', '2 +memory', '3 -memory', '4 +expect', '5 - expect', '6-Coop/Compete', '7-Conlf Manag',
-             '8-Fairness', '9-Access', '10-Security', '11-Higher Authority', '12-Peace Vision', '13-Shared Ident']
+    vname = ['1-NODAL (+/-)',
+             '2 +memory',
+             '3 -memory',
+             '4 +expect',
+             '5 - expect',
+             '6-Coop/Compete',
+             '7-Conlf Manag',
+             '8-Fairness',
+             '9-Access',
+             '10-Security',
+             '11-Higher Authority',
+             '12-Peace Vision',
+             '13-Shared Ident']
     numc = len(cin)
     if numc > 13:
         print('\nSORRY, I cannot make a clockplot for more than 13 variables')
         return
-    else:
-        pass
-    #
 
     # plot the variables
     radius = 1.
     pi = np.pi
-    xp = ['0' for i in range(numc)]
-    yp = ['0' for i in range(numc)]
     #     for i in range(numc):
     #         angle=i*pi/(6.5)
     #         xp[i]=radius*np.sin(angle)
     #         yp[i]=radius*np.cos(angle)
     #     print (xp)
-    xp[0] = 1.
-    xp[0] = 0.
-    xp[1] = -.5
-    xp[2] = -.5
-    xp[3] = .5
-    xp[4] = .5
-    xp[5] = -.1
-    xp[6] = 0.1
-    xp[7] = -1.
-    xp[8] = -1.
-    xp[9] = -0.5
-    xp[10] = 0.
-    xp[11] = 0.6
-    xp[12] = 1.
-
-    yp[0] = 0.
-    yp[1] = 0.25
-    yp[2] = -0.25
-    yp[3] = 0.25
-    yp[4] = -0.25
-    yp[5] = 0.5
-    yp[6] = -0.5
-    yp[7] = 0.35
-    yp[8] = -0.35
-    yp[9] = -0.6
-    yp[10] = 1.
-    yp[11] = 0.5
-    yp[12] = 0.
+    xp = [0., -.5, -.5, .5, .5, -.1, .1, -1., -1., -.5, 0., .6, 1.]
+    yp = [0., .25, -.25, .25, -.25, .5, -.5, .35, -.35, -.6, 1., .5, 0.]
     xpa = np.array(xp)
     ypa = np.array(yp)
+
     fig = plt.figure()
     # plt.axes([.1,.1,.7,.7])
     ax = fig.add_subplot(111)
@@ -91,8 +84,7 @@ def boxplot(cin, zin, programnamein):
 
     for i in range(numc):
         # Create circles (squares)
-        maxz = max(np.abs(zin))
-        msz = abs(zin[i]) * 40 / maxz
+        msz = calculate_marker_size(i, zin)
         if msz < 2:
             msz = 2.
         symbol = 'o'
@@ -150,6 +142,12 @@ def boxplot(cin, zin, programnamein):
     plt.title(pname, fontsize=12)
     plt.show()
     return
+
+
+def calculate_marker_size(i, zin):
+    maxz = max(np.abs(zin))
+    msz = abs(zin[i]) * 40 / maxz
+    return msz
 
 # THIS IS THE TEST RUN
 # pprogamename='boxTEST'
