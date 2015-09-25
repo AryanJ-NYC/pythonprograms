@@ -25,6 +25,10 @@ def perp2(vxin, vyin):
         vxp = -np.sign(vyin) * abs(vyin * vyp / vxin)
     return vxp, vyp
 
+def animate(i):
+
+
+
 
 # -------------------------------------------------------------------------
 
@@ -81,12 +85,12 @@ def boxplot(cin, zin, programnamein):
     ypa = np.array(yp)
 
     fig = plt.figure()
-    # plt.axes([.1,.1,.7,.7])
     ax = fig.add_subplot(111)
+    ax.axis([-1.25, 1.25, -1.25, 1.25])
+    ax.axis('off')
     ax.set_aspect('equal')
     fig.patch.set_facecolor('white')
     ax.set_axis_bgcolor('white')
-    # ax.arrow(0, 0, 0.5, 0.5, head_width=0.05, head_length=0.1, fc='k', ec='k')
 
     for i in range(numc):
         # Create circles (squares)
@@ -100,27 +104,23 @@ def boxplot(cin, zin, programnamein):
         if zin[i] < 0:
             varc = 'r'
         if zin[i] > 0: varc = 'g'
-        #         else:
-        #             varc='g'
+
         plt.plot(xpa[i], ypa[i], symbol, ms=msz, c=varc, markeredgewidth=2.0,
                  markerfacecolor='none', markeredgecolor=varc)
+
         if xpa[i] < 0:
             halign = 'right'
         else:
             halign = 'left'
         if i != 0:
-            #             plt.text(xpa[i]+.1,ypa[i]-0.07,vname[i])
             plt.text(xpa[i] + .1, ypa[i] + 0.07, vname[i], horizontalalignment=halign)
         else:
             plt.text(xpa[i] + .2, ypa[i] + 0.07, vname[i])
 
-    plt.axis([-1.25, 1.25, -1.25, 1.25])
-    plt.axis('off')
-
-    # plot the connections
     cina = np.array(cin)
 
     for i in range(numc):
+        # plot the connections
         for j in range(numc):
             if np.abs(cina[j][i]) > .1:
                 width = abs(cina[j][i]) / 2.
@@ -147,7 +147,6 @@ def boxplot(cin, zin, programnamein):
     plt.title(pname, fontsize=12)
     plt.show()
     return
-
 
 # THIS IS THE TEST RUN
 # pprogamename='boxTEST'
