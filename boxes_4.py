@@ -37,7 +37,6 @@ def perp2(vxin, vyin):
 
 
 def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, variable_names):
-
     # clear between frames
     ax.clear()
 
@@ -45,6 +44,7 @@ def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, variable_names):
     ax.axis([-1.25, 1.25, -1.25, 1.25])
     ax.axis('off')
     ax.set_aspect('equal')
+    ax.text(-1.25, 1.25, "Time: {} / {}".format(i, len(z_2d_arr)))
     for marker in range(len(z_2d_arr[i])):
         marker_size = msize_matrix[i][marker]
 
