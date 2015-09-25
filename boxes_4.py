@@ -3,6 +3,7 @@
 # FOR 13 VARIABLES of map2_4.py
 
 import math
+import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
@@ -10,9 +11,18 @@ import random
 import time
 
 
-def calculate_marker_size(i, zin):
+def generate_marker_size_array(z_2d_array):
+    marker_size_matrix = [[0 for j in range(len(z_2d_array[i]))] for i in range(len(z_2d_array))]
+    for i in range(len(z_2d_array)):
+        for j in range(len(z_2d_array[i])):
+            marker_size_matrix[i][j] = calculate_marker_size(j, z_2d_array[i])
+    return marker_size_matrix
+
+
+def calculate_marker_size(marker, zin):
     maxz = max(np.abs(zin))
-    msz = abs(zin[i]) * 40 / maxz
+    msz = abs(zin[marker]) * 40 / maxz
+    msz = max(msz, 2.)
     return msz
 
 
@@ -25,10 +35,43 @@ def perp2(vxin, vyin):
         vxp = -np.sign(vyin) * abs(vyin * vyp / vxin)
     return vxp, vyp
 
-def animate(i):
 
+def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, variable_names):
 
+    # clear between frames
+    ax.clear()
 
+    # reset axes values
+    ax.axis([-1.25, 1.25, -1.25, 1.25])
+    ax.axis('off')
+    ax.set_aspect('equal')
+    for marker in range(len(z_2d_arr[i])):
+        marker_size = msize_matrix[i][marker]
+
+        symbol = 'o'
+        if marker == 0:
+            symbol = 's'
+        marker_color = 'k'
+        if z_2d_arr[i][marker] < 0:
+            marker_color = 'r'
+        elif z_2d_arr[i][marker] > 0:
+            marker_color = 'g'
+
+        ax.plot(xp_arr[marker], yp_arr[marker], symbol, ms=marker_size, c=marker_color, markeredgewidth=2.,
+                markerfacecolor="none", markeredgecolor=marker_color)
+
+        if xp_arr[marker] < 0:
+            halign = 'right'
+        elif xp_arr[marker] > 0:
+            halign = 'left'
+
+        if marker != 0:
+            ax.text(xp_arr[marker] + .1, yp_arr[marker] + 0.07, variable_names[marker], horizontalalignment=halign)
+        else:
+            ax.text(xp_arr[marker] + .2, yp_arr[marker] + 0.07, variable_names[marker])
+
+    # clear for next iteration
+    return ax
 
 # -------------------------------------------------------------------------
 
@@ -50,6 +93,7 @@ def animate(i):
 # zzin=[ 10.69146502,   3.66661546,   0.        ,   6.04199951,
 #          0.        ,   2.06698068,   0.37274724,   5.88836819,
 #          5.88836819,   0.11879745,   0.32282218,   0.33332957,   #1.66664784]
+
 
 def boxplot(cin, zin, programnamein):
     # set up only for THESE names
@@ -92,30 +136,31 @@ def boxplot(cin, zin, programnamein):
     fig.patch.set_facecolor('white')
     ax.set_axis_bgcolor('white')
 
-    for i in range(numc):
-        # Create circles (squares)
-        msz = calculate_marker_size(i, zin)
-        if msz < 2:
-            msz = 2.
-        symbol = 'o'
-        if i == 0:
-            symbol = 's'
-        varc = 'k'
-        if zin[i] < 0:
-            varc = 'r'
-        if zin[i] > 0: varc = 'g'
 
-        plt.plot(xpa[i], ypa[i], symbol, ms=msz, c=varc, markeredgewidth=2.0,
-                 markerfacecolor='none', markeredgecolor=varc)
-
-        if xpa[i] < 0:
-            halign = 'right'
-        else:
-            halign = 'left'
-        if i != 0:
-            plt.text(xpa[i] + .1, ypa[i] + 0.07, vname[i], horizontalalignment=halign)
-        else:
-            plt.text(xpa[i] + .2, ypa[i] + 0.07, vname[i])
+    # for i in range(numc):
+    #     # Create circles (squares)
+    #     msz = calculate_marker_size(i, zin)
+    #     if msz < 2:
+    #         msz = 2.
+    #     symbol = 'o'
+    #     if i == 0:
+    #         symbol = 's'
+    #     varc = 'k'
+    #     if zin[i] < 0:
+    #         varc = 'r'
+    #     if zin[i] > 0: varc = 'g'
+    #
+    #     plt.plot(xpa[i], ypa[i], symbol, ms=msz, c=varc, markeredgewidth=2.0,
+    #              markerfacecolor='none', markeredgecolor=varc)
+    #
+    #     if xpa[i] < 0:
+    #         halign = 'right'
+    #     else:
+    #         halign = 'left'
+    #     if i != 0:
+    #         plt.text(xpa[i] + .1, ypa[i] + 0.07, vname[i], horizontalalignment=halign)
+    #     else:
+    #         plt.text(xpa[i] + .2, ypa[i] + 0.07, vname[i])
 
     cina = np.array(cin)
 
@@ -145,6 +190,11 @@ def boxplot(cin, zin, programnamein):
                 #     programname='peace_20.py   '+localtime
     pname = programnamein
     plt.title(pname, fontsize=12)
+
+    step = 50
+    marker_sizes = generate_marker_size_array(zin)
+    anim = animation.FuncAnimation(fig, animate, frames=len(zin), fargs=(ax, zin, marker_sizes, xpa, ypa, vname),
+                                   interval=1, blit=False, repeat=False)
     plt.show()
     return
 

@@ -160,7 +160,7 @@ def animate(i):
 
     # clear lines
     ax1.clear()
-
+    #
     # replot
     ax1.plot(x_plot1, y_plot1, color='navy', linewidth=6)
     ax1.plot(x_plot2, y_plot2, color='greenyellow', linewidth=4)
@@ -212,7 +212,7 @@ ax1 = figure.add_subplot(111)
 
 # init animation
 frames = numdata / step
-anim = animation.FuncAnimation(figure, animate, frames=int(frames), interval=1, blit=False, repeat=False)
+# anim = animation.FuncAnimation(figure, animate, frames=int(frames), interval=1, blit=False, repeat=False)
 
 # resize graph to fit title
 box = ax1.get_position()
