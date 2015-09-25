@@ -10,6 +10,12 @@ import random
 import time
 
 
+def calculate_marker_size(i, zin):
+    maxz = max(np.abs(zin))
+    msz = abs(zin[i]) * 40 / maxz
+    return msz
+
+
 def perp2(vxin, vyin):
     if vxin == 0:
         vxp = -np.sign(vyin) * abs(vyin) * 2
@@ -113,8 +119,7 @@ def boxplot(cin, zin, programnamein):
 
     # plot the connections
     cina = np.array(cin)
-    xcon = ['0', '0']
-    ycon = ['0', '0']
+
     for i in range(numc):
         for j in range(numc):
             if np.abs(cina[j][i]) > .1:
@@ -143,11 +148,6 @@ def boxplot(cin, zin, programnamein):
     plt.show()
     return
 
-
-def calculate_marker_size(i, zin):
-    maxz = max(np.abs(zin))
-    msz = abs(zin[i]) * 40 / maxz
-    return msz
 
 # THIS IS THE TEST RUN
 # pprogamename='boxTEST'
