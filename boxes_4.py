@@ -129,13 +129,19 @@ def boxplot(cin, zin, programnamein):
     ypa = np.array(yp)
 
     fig = plt.figure()
+    fig.patch.set_facecolor('white')
+
     ax = fig.add_subplot(111)
     ax.axis([-1.25, 1.25, -1.25, 1.25])
     ax.axis('off')
     ax.set_aspect('equal')
-    fig.patch.set_facecolor('white')
     ax.set_axis_bgcolor('white')
 
+    ax1 = fig.add_subplot(111)
+    ax1.axis([-1.25, 1.25, -1.25, 1.25])
+    ax1.axis('off')
+    ax1.set_aspect('equal')
+    ax1.set_axis_bgcolor('white')
 
     # for i in range(numc):
     #     # Create circles (squares)
