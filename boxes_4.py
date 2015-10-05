@@ -36,7 +36,12 @@ def perp2(vxin, vyin):
     return vxp, vyp
 
 
-def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, variable_names):
+def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, hold_value, variable_names):
+    if i < hold_value:
+        return ax
+
+    i = i - hold_value
+
     # clear between frames
     ax.clear()
 
@@ -45,6 +50,7 @@ def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, variable_names):
     ax.axis('off')
     ax.set_aspect('equal')
     ax.text(-1.25, 1.25, "Time: {} / {}".format(i, len(z_2d_arr)))
+   
     for marker in range(len(z_2d_arr[i])):
         marker_size = msize_matrix[i][marker]
 
@@ -62,7 +68,7 @@ def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, variable_names):
 
         if xp_arr[marker] < 0:
             halign = 'right'
-        elif xp_arr[marker] > 0:
+        elif xp_arr[marker] >= 0:
             halign = 'left'
 
         if marker != 0:
@@ -72,27 +78,6 @@ def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, variable_names):
 
     # clear for next iteration
     return ax
-
-# -------------------------------------------------------------------------
-
-# NEED TO CHANGE THIS LATER
-# numc=13
-# ccin = [[0, 1.5, -5, 1.5, -5, 5, 5, 0, 0, 0, 0, 0, 0],
-# [0.3, 0, 0, 0, 0, 0, 0, 1.5, 1.5, 0, 0, 0, 0],
-# [-1.5, 0, 0, 0, 0, 0, 0, -0.3, -5, -1.5, 0, 0, 0],
-# [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.5, 5],
-# [-1.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.5],
-# [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0],
-# [0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0.3, 0, 0, 0],
-# [0, 0.3, -1.5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0],
-# [0, 0.3, -5, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
-# [0, 0, -0.3, 0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0],
-# [0, 0, 0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0, 0],
-# [0, 0, 0, 0.3, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-# [0, 0, 0, 1.5, -5, 0, 0, 0, 0, 0, 0, 0, 0]]
-# zzin=[ 10.69146502,   3.66661546,   0.        ,   6.04199951,
-#          0.        ,   2.06698068,   0.37274724,   5.88836819,
-#          5.88836819,   0.11879745,   0.32282218,   0.33332957,   #1.66664784]
 
 
 def boxplot(cin, zin, programnamein):
@@ -143,31 +128,6 @@ def boxplot(cin, zin, programnamein):
     ax1.set_aspect('equal')
     ax1.set_axis_bgcolor('white')
 
-    # for i in range(numc):
-    #     # Create circles (squares)
-    #     msz = calculate_marker_size(i, zin)
-    #     if msz < 2:
-    #         msz = 2.
-    #     symbol = 'o'
-    #     if i == 0:
-    #         symbol = 's'
-    #     varc = 'k'
-    #     if zin[i] < 0:
-    #         varc = 'r'
-    #     if zin[i] > 0: varc = 'g'
-    #
-    #     plt.plot(xpa[i], ypa[i], symbol, ms=msz, c=varc, markeredgewidth=2.0,
-    #              markerfacecolor='none', markeredgecolor=varc)
-    #
-    #     if xpa[i] < 0:
-    #         halign = 'right'
-    #     else:
-    #         halign = 'left'
-    #     if i != 0:
-    #         plt.text(xpa[i] + .1, ypa[i] + 0.07, vname[i], horizontalalignment=halign)
-    #     else:
-    #         plt.text(xpa[i] + .2, ypa[i] + 0.07, vname[i])
-
     cina = np.array(cin)
 
     for i in range(numc):
@@ -192,14 +152,23 @@ def boxplot(cin, zin, programnamein):
 
                 ax.arrow(xpastart, ypastart, dxp, dyp, head_width=0.05,
                          head_length=0.1, fc=test, ec=test, linewidth=width)
-                #     localtime = time.asctime( time.localtime(time.time()) )
-                #     programname='peace_20.py   '+localtime
+
+                if xpa[i] < 0:
+                    halign = 'right'
+                else:
+                    halign = 'left'
+                if i != 0:
+                    plt.text(xpa[i] + .1, ypa[i] + 0.07, vname[i], horizontalalignment=halign)
+                else:
+                    plt.text(xpa[i] + .2, ypa[i] + 0.07, vname[i])
+
     pname = programnamein
     plt.title(pname, fontsize=12)
 
     step = 50
+    hold_value = 250
     marker_sizes = generate_marker_size_array(zin)
-    anim = animation.FuncAnimation(fig, animate, frames=len(zin), fargs=(ax, zin, marker_sizes, xpa, ypa, vname),
+    anim = animation.FuncAnimation(fig, animate, frames=len(zin) + hold_value, fargs=(ax, zin, marker_sizes, xpa, ypa, hold_value, vname),
                                    interval=1, blit=False, repeat=False)
     plt.show()
     return
