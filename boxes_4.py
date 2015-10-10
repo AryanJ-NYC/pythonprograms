@@ -10,6 +10,13 @@ import numpy as np
 import random
 import time
 
+pause = False
+
+
+def on_click(event):
+    global pause
+    pause ^= True
+
 
 def generate_marker_size_array(z_2d_array):
     marker_size_matrix = [[0 for j in range(len(z_2d_array[i]))] for i in range(len(z_2d_array))]
@@ -36,11 +43,11 @@ def perp2(vxin, vyin):
     return vxp, vyp
 
 
-def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, hold_value, variable_names):
+def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, hold_value, variable_names, cin_nparray):
     if i < hold_value:
         return ax
 
-    i = i - hold_value
+    i -= hold_value
 
     # clear between frames
     ax.clear()
@@ -50,7 +57,7 @@ def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, hold_value, variable_
     ax.axis('off')
     ax.set_aspect('equal')
     ax.text(-1.25, 1.25, "Time: {} / {}".format(i, len(z_2d_arr)))
-   
+
     for marker in range(len(z_2d_arr[i])):
         marker_size = msize_matrix[i][marker]
 
@@ -75,6 +82,29 @@ def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, hold_value, variable_
             ax.text(xp_arr[marker] + .1, yp_arr[marker] + 0.07, variable_names[marker], horizontalalignment=halign)
         else:
             ax.text(xp_arr[marker] + .2, yp_arr[marker] + 0.07, variable_names[marker])
+
+    if i >= len(z_2d_arr) - 2:
+        numc = len(cin_nparray)
+        for i in range(numc):
+            # plot the connections (arrows)
+            for j in range(numc):
+                if np.abs(cin_nparray[j][i]) > .1:
+                    width = abs(cin_nparray[j][i]) / 2.
+                    # print ('\nwidth= ',width)
+                    dxp = (xp_arr[j] - xp_arr[i]) * 0.9
+                    dyp = (yp_arr[j] - yp_arr[i]) * 0.9
+                    dxshift, dyshift = perp2(dxp, dyp)
+                    if cin_nparray[j][i] < 0:
+                        arrow_color = 'r'
+                    else:
+                        arrow_color = 'g'
+                    roff = 0.03
+                    xoff = dxshift * roff
+                    yoff = dyshift * roff
+                    xpastart = xp_arr[i] + xoff
+                    ypastart = yp_arr[i] + yoff
+                    ax.arrow(xpastart, ypastart, dxp, dyp, head_width=0.05,
+                             head_length=0.1, fc=arrow_color, ec=arrow_color, linewidth=width)
 
     # clear for next iteration
     return ax
@@ -115,6 +145,7 @@ def boxplot(cin, zin, programnamein):
 
     fig = plt.figure()
     fig.patch.set_facecolor('white')
+    fig.canvas.mpl_connect('button_press_event', on_click)  # uses on_click as mouse click event
 
     ax = fig.add_subplot(111)
     ax.axis([-1.25, 1.25, -1.25, 1.25])
@@ -131,7 +162,7 @@ def boxplot(cin, zin, programnamein):
     cina = np.array(cin)
 
     for i in range(numc):
-        # plot the connections
+        # plot the connections (arrows)
         for j in range(numc):
             if np.abs(cina[j][i]) > .1:
                 width = abs(cina[j][i]) / 2.
@@ -140,9 +171,9 @@ def boxplot(cin, zin, programnamein):
                 dyp = (ypa[j] - ypa[i]) * 0.9
                 dxshift, dyshift = perp2(dxp, dyp)
                 if cina[j][i] < 0:
-                    test = 'r'
+                    arrow_color = 'r'
                 else:
-                    test = 'g'
+                    arrow_color = 'g'
                 roff = 0.03
                 xoff = dxshift * roff
                 yoff = dyshift * roff
@@ -151,7 +182,7 @@ def boxplot(cin, zin, programnamein):
                 # print ('\nijxy= ',i,j,xpastart, ypastart)
 
                 ax.arrow(xpastart, ypastart, dxp, dyp, head_width=0.05,
-                         head_length=0.1, fc=test, ec=test, linewidth=width)
+                         head_length=0.1, fc=arrow_color, ec=arrow_color, linewidth=width)
 
                 if xpa[i] < 0:
                     halign = 'right'
@@ -165,11 +196,12 @@ def boxplot(cin, zin, programnamein):
     pname = programnamein
     plt.title(pname, fontsize=12)
 
-    step = 50
     hold_value = 250
     marker_sizes = generate_marker_size_array(zin)
-    anim = animation.FuncAnimation(fig, animate, frames=len(zin) + hold_value, fargs=(ax, zin, marker_sizes, xpa, ypa, hold_value, vname),
+    anim = animation.FuncAnimation(fig, animate, frames=(len(zin) + hold_value),
+                                   fargs=(ax, zin, marker_sizes, xpa, ypa, hold_value, vname, cina),
                                    interval=1, blit=False, repeat=False)
+
     plt.show()
     return
 
