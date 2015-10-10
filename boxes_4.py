@@ -10,13 +10,6 @@ import numpy as np
 import random
 import time
 
-pause = False
-
-
-def on_click(event):
-    global pause
-    pause ^= True
-
 
 def generate_marker_size_array(z_2d_array):
     marker_size_matrix = [[0 for j in range(len(z_2d_array[i]))] for i in range(len(z_2d_array))]
@@ -145,7 +138,6 @@ def boxplot(cin, zin, programnamein):
 
     fig = plt.figure()
     fig.patch.set_facecolor('white')
-    fig.canvas.mpl_connect('button_press_event', on_click)  # uses on_click as mouse click event
 
     ax = fig.add_subplot(111)
     ax.axis([-1.25, 1.25, -1.25, 1.25])
