@@ -36,11 +36,12 @@ def perp2(vxin, vyin):
     return vxp, vyp
 
 
-def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, hold_value, variable_names, cin_nparray):
+def animate(i, ax, z_2d_arr, msize_matrix, xp_arr, yp_arr, hold_value, variable_names, cin_nparray, step):
     if i < hold_value:
         return ax
 
     i -= hold_value
+    i *= step
 
     # clear between frames
     ax.clear()
@@ -188,10 +189,11 @@ def boxplot(cin, zin, programnamein):
     pname = programnamein
     plt.title(pname, fontsize=12)
 
+    step = 50
     hold_value = 250
     marker_sizes = generate_marker_size_array(zin)
-    anim = animation.FuncAnimation(fig, animate, frames=(len(zin) + hold_value),
-                                   fargs=(ax, zin, marker_sizes, xpa, ypa, hold_value, vname, cina),
+    anim = animation.FuncAnimation(fig, animate, frames=int((len(zin) + hold_value)/step),
+                                   fargs=(ax, zin, marker_sizes, xpa, ypa, hold_value, vname, cina, step),
                                    interval=1, blit=False, repeat=False)
 
     plt.show()
